@@ -19,5 +19,10 @@
 
 Give a ⭐️ if this project helped you!
 
+## Documentation
+The online documentation for this project can be found at the link below:
+
+https://vsphere-packer-builds.readthedocs.io/en/latest/
+
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

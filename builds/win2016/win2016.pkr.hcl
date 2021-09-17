@@ -114,7 +114,7 @@ source "vsphere-iso" "win2016std" {
     insecure_connection         = var.vcenter_insecure
     datacenter                  = var.vcenter_datacenter
     cluster                     = var.vcenter_cluster
-    folder                      = "${ var.vcenter_folder }/${ var.os_family }/${ var.os_version }"
+    folder                      = "${ var.vcenter_content_library }/${ var.os_family }/${ var.os_version }"
     datastore                   = var.vcenter_datastore
     remove_cdrom                = var.vm_cdrom_remove
     convert_to_template         = var.vm_convert_template

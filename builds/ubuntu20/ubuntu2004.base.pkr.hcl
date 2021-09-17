@@ -172,6 +172,6 @@ build {
         scripts             = var.script_files
     }
     post-processor "manifest" {
-        output = "base-manifest.json"
+        output = "${ var.manifest_output_dir }/${ var.os_version }-${ var.os_family }.json"
     }
 }

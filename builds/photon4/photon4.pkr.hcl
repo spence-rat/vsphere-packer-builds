@@ -87,6 +87,7 @@ variable "inline_cmds"              { type = list(string) }
 # Build Settings
 variable "build_repo"               { type = string }
 variable "build_branch"             { type = string }
+variable "manifest_output_dir"      { type = string }
 
 # HTTP Settings
 variable "http_directory"           { type = string }
@@ -168,5 +169,8 @@ build {
         execute_command     = "echo '${var.build_password}' | {{.Vars}} sudo -E -S sh -eu '{{.Path}}'"
         scripts             = var.script_files
         valid_exit_codes    = [ 0,245,1535 ]
+    }
+    post-processor "manifest" {
+        output = "${ var.manifest_output_dir }/${ var.os_version }-${ var.os_family }.json"
     }
 }

@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "name": "photon4",
+      "builder_type": "vsphere-iso",
+      "build_time": 1631908500,
+      "files": null,
+      "artifact_id": "photon4-main-21.09",
+      "packer_run_uuid": "41826f0c-ea2b-c488-84e5-7e15b9d75f83",
+      "custom_data": null
+    }
+  ],
+  "last_run_uuid": "41826f0c-ea2b-c488-84e5-7e15b9d75f83"
+}
