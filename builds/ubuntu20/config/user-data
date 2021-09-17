@@ -10,7 +10,7 @@ autoinstall:
   identity:
     hostname: ubuntu
     username: packer
-    password: packer
+    password: "$6$5xf8mJ0a1MgY$yne85/oYJA96xoFMlmKsyalnUhjDtt1ZRfwTVGXP1CF6xVkGDetIaY3vQtxQ7NleYKCO1fhSGN7N2irRfEqJK0"
   users:
     - default
     - name: docker
@@ -20,6 +20,14 @@ autoinstall:
       groups: users, admin
       ssh_import_id:
       lock_passwd: false
+    - name: packer
+      passwd: "$6$5xf8mJ0a1MgY$yne85/oYJA96xoFMlmKsyalnUhjDtt1ZRfwTVGXP1CF6xVkGDetIaY3vQtxQ7NleYKCO1fhSGN7N2irRfEqJK0"
+      shell: /bin/bash
+      lock_passwd: false
+      ssh_pwauth: True
+      chpasswd: { expire: False }
+      sudo: ALL=(ALL) NOPASSWD:ALL
+      groups: users, admin
   ssh:
     install-server: yes
     allow-pw: yes

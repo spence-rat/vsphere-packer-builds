@@ -1,9 +1,9 @@
 # Apply updates and cleanup Apt cache
 #
 apt-get update; apt-get -y dist-upgrade
-apt-get -y autoremove
-apt-get -y cleanup
-apt-get -y install docker.io 
+#apt-get -y autoremove
+#apt-get -y cleanup
+#apt-get -y install docker.io 
 
 # Disable swap - generally recommended for K8s, but otherwise enable it for other workloads
 #

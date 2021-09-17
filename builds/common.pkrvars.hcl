@@ -2,7 +2,7 @@
 # Name:         common.pkrvars.hcl
 # Description:  Common variables for Packer builds
 # Author:       Ralph Brynard
-# URL:          https://github.com/RalphBrynard/homelab-automation.git
+# URL:          https://github.com/RalphBrynard/vsphere-packer-builds.git
 # Date:         09/15/2021
 # ----------------------------------------------------------------------------
 

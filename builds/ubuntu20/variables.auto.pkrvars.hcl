@@ -2,7 +2,7 @@
 # Name:         variables.auto.pkrvars.hcl
 # Description:  Common vSphere variables for Ubuntu 20.04 Packer builds
 # Author:       Ralph Brynard (@DevopsPleb)
-# URL:          https://github.com/RalphBrynard/homelab-automation.git
+# URL:          https://github.com/RalphBrynard/vsphere-packer-builds.git
 # Date:         09/15/2021
 # ----------------------------------------------------------------------------
 

@@ -1,8 +1,10 @@
 # Cache objects
-packer_cache/
+./builds/*.*/packer_cache/*
 
 # For built boxes
 *.box
 
 # Misc
-./boiler_plate
+vsphere.pkrvars.hcl
+builds/*/packer_cache/
+./builds/vsphere.pkrvars.hcl
