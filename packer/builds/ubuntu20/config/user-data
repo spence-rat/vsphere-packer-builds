@@ -1,0 +1,32 @@
+#cloud-config
+autoinstall:
+  version: 1
+#  early-commands:
+#    - systemctl stop ssh
+  locale: en_US
+  keyboard:
+    layout: en
+    variant: us
+  identity:
+    hostname: ubuntu
+    username: packer
+    password: packer
+  users:
+    - default
+    - name: docker
+      gecos: docker
+      primary_group: staff
+      sudo: ALL=(ALL) NOPASSWD:ALL
+      groups: users, admin
+      ssh_import_id:
+      lock_passwd: false
+  ssh:
+    install-server: yes
+    allow-pw: yes
+  packages:
+    - open-vm-tools
+    - net-tools
+    - bind9-utils
+  late-commands:
+    - echo 'packer ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/packer
+    - chmod 440 /target/etc/sudoers.d/packer
