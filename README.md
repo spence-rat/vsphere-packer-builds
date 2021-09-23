@@ -1,7 +1,4 @@
 <h1 align="center">Welcome to vsphere-packer-builds 👋</h1>
-<p align="center">
-  [![Documentation Status](https://readthedocs.org/projects/vsphere-packer-builds/badge/?version=latest)](https://vsphere-packer-builds.readthedocs.io/en/latest/?badge=latest)
-</p>
 <p>
   <a href="https://twitter.com/DevopsPleb" target="_blank">
     <img alt="Twitter: DevopsPleb" src="https://img.shields.io/twitter/follow/DevopsPleb.svg?style=social" />
@@ -26,6 +23,8 @@ Give a ⭐️ if this project helped you!
 The online documentation for this project can be found at the link below:
 
 https://vsphere-packer-builds.readthedocs.io/en/latest/
+
+[![Documentation Status](https://readthedocs.org/projects/vsphere-packer-builds/badge/?version=latest)](https://vsphere-packer-builds.readthedocs.io/en/latest/?badge=latest)
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

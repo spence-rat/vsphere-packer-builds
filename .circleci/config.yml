@@ -1,0 +1,17 @@
+version: 2.1
+orbs:
+  packer: salaxander/packer@0.0.3
+jobs:
+  packer-example:
+    executor: packer/default
+    steps:
+      - checkout
+      - build:
+          template: ../builds/photon4/photon4.pkr.hcl
+          args: '-var-file="../vsphere.pkrvars.hcl" -var-file="../common.pkrvars.hcl" -var-file=".\variables.auto.pkrvars.hcl"'
+workflows:
+  version: 2
+  packer:
+    jobs:
+      - packer-example
+

@@ -63,7 +63,7 @@
                     <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
-                            <Value>Windows Server 2016 SERVERSTANDARDCORE</Value>
+                            <Value>Windows Server 2019 SERVERSTANDARD</Value>
                         </MetaData>
                     </InstallFrom>
                     <InstallTo>
@@ -74,7 +74,7 @@
             </ImageInstall>
             <UserData>
                 <ProductKey>
-                    <Key>WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY</Key>
+                    <Key>N69G4-B89J2-4G8F4-WWYCC-J464C</Key>
                     <WillShowUI>OnError</WillShowUI>
                 </ProductKey>
                 <AcceptEula>true</AcceptEula>
@@ -90,7 +90,7 @@
             </OEMInformation>
             <TimeZone>Central Standard Time</TimeZone>
             <RegisteredOwner />
-            <ComputerName>windows2016</ComputerName>
+            <ComputerName>windows2019</ComputerName>
         </component>
         <component name="Microsoft-Windows-ServerManager-SvrMgrNc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <DoNotOpenServerManagerAtLogon>true</DoNotOpenServerManagerAtLogon>
@@ -107,7 +107,7 @@
                 <RunSynchronousCommand wcm:action="add">
                     <Description>Install VMWare Tools</Description>
                     <Order>1</Order>
-                    <Path>powershell.exe /c a:\00-vmtools.ps1</Path>
+                    <Path>powershell.exe /c a:\win-install-vmtools.ps1</Path>
                 </RunSynchronousCommand>
                 <RunSynchronousCommand wcm:action="add">
                     <Description>Turn off network discovery prompt</Description>
@@ -154,7 +154,7 @@
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\01-initialize.ps1</CommandLine>
+                    <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\win2019-initialize.ps1</CommandLine>
                     <Description>Basic configuration</Description>
                     <Order>99</Order>
                 </SynchronousCommand>
@@ -173,5 +173,5 @@
             <EnableLUA>false</EnableLUA>
         </component>
     </settings>
-    <cpi:offlineImage cpi:source="catalog:d:/iso/microsoft/windows server/2016/wim/install_windows server 2016 serverstandard.clg" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
+   <cpi:offlineImage cpi:source="wim:d:/iso/microsoft/windows%20server/2019/wim/install.wim#Windows Server 2019 SERVERSTANDARD" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
 </unattend>

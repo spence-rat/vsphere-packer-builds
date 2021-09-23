@@ -50,11 +50,11 @@ variable "vcenter_insecure"         { type = bool }
 variable "vcenter_content_library"  { type = string }
 
 # vCenter and ISO Configuration
-#variable "vcenter_iso_datastore"    { type = string }
-#variable "os_iso_file"              { type = string }
-#variable "os_iso_path"              { type = string }
-variable "os_iso_url"                { type = string }
-variable "os_iso_checksum"           { type = string }
+variable "vcenter_iso_datastore"    { type = string }
+variable "os_iso_file"              { type = string }
+variable "os_iso_path"              { type = string }
+#variable "os_iso_url"                { type = string }
+#variable "os_iso_checksum"           { type = string }
 # OS Meta Data
 variable "os_family"                { type = string }
 variable "os_version"               { type = string }
@@ -120,7 +120,7 @@ source "vsphere-iso" "ubuntu20_base" {
     # Virtual Machine
     guest_os_type               = var.vm_os_type
     vm_name                     = "ubuntu20-${ var.build_branch }-${ local.build_version }"
-    notes                       = "VER: ${ local.build_version }\nDATE: ${ local.build_date }\nSRC: ${ var.build_repo } (${ var.build_branch })\nOS: Ubuntu 20.04 Server\nISO: ${ var.os_iso_url }"
+    notes                       = "VER: ${ local.build_version }\nDATE: ${ local.build_date }\nSRC: ${ var.build_repo } (${ var.build_branch })\nOS: Ubuntu 20.04 Server\nISO: ${ var.os_iso_file }"
     firmware                    = var.vm_firmware
     CPUs                        = var.vm_cpu_sockets
     cpu_cores                   = var.vm_cpu_cores
@@ -137,9 +137,9 @@ source "vsphere-iso" "ubuntu20_base" {
     }
 
     # Removeable Media
-    #iso_paths                   = ["[${ var.vcenter_iso_datastore }] ${ var.os_iso_path }/${ var.os_iso_file }"]
-    iso_url                     = var.os_iso_url
-    iso_checksum                = var.os_iso_checksum
+    iso_paths                   = ["[${ var.vcenter_iso_datastore }] ${ var.os_iso_path }/${ var.os_iso_file }"]
+    #iso_url                     = var.os_iso_url
+    #iso_checksum                = var.os_iso_checksum
     # Boot and Provisioner
     http_directory              = var.http_directory
     http_port_min               = var.http_port_min

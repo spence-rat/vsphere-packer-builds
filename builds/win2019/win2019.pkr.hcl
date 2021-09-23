@@ -1,11 +1,10 @@
 # ----------------------------------------------------------------------------
-# Name:         photon4.pkr.hcl
-# Description:  Build definition for Photon 4
+# Name:         win2019.pkr.hcl
+# Description:  Build definition for Windows 2016
 # Author:       Ralph Brynard (@DevopsPleb)
 # URL:          https://github.com/RalphBrynard/vsphere-packer-builds.git
-# Date:         09/16/2021
+# Date:         09/23/2021
 # ----------------------------------------------------------------------------
-
 # -------------------------------------------------------------------------- #
 #                           Packer Configuration                             #
 # -------------------------------------------------------------------------- #
@@ -15,6 +14,12 @@ packer {
         vsphere = {
             version = ">= v1.0.1"
             source  = "github.com/hashicorp/vsphere"
+        }
+    }
+    required_plugins {
+        windows-update = {
+            version = ">= 0.14.0"
+            source  = "github.com/rgl/windows-update"
         }
     }
 }
@@ -47,14 +52,14 @@ variable "vcenter_cluster"          { type = string }
 variable "vcenter_datastore"        { type = string }
 variable "vcenter_network"          { type = string }
 variable "vcenter_insecure"         { type = bool }
-variable "vcenter_content_library"  { type = string }
+variable "vcenter_folder"           { type = string }
 
 # vCenter and ISO Configuration
-#variable "vcenter_iso_datastore"    { type = string }
-#variable "os_iso_file"              { type = string }
-#variable "os_iso_path"              { type = string }
-variable "os_iso_url"                { type = string }
-variable "os_iso_checksum"           { type = string }
+variable "vcenter_iso_datastore"    { type = string }
+variable "os_iso_file"              { type = string }
+variable "os_iso_path"              { type = string }
+#variable "os_iso_url"                { type = string }
+#variable "os_iso_checksum"           { type = string }
 
 # OS Meta Data
 variable "os_family"                { type = string }
@@ -62,6 +67,7 @@ variable "os_version"               { type = string }
 
 # Virtual Machine OS Settings
 variable "vm_os_type"               { type = string }
+variable "vm_tools_update"          { type = bool }
 
 # Virtual Machine Hardware Settings
 variable "vm_firmware"              { type = string }
@@ -90,8 +96,6 @@ variable "build_branch"             { type = string }
 variable "manifest_output_dir"      { type = string }
 
 # HTTP Settings
-variable "http_directory"           { type = string }
-variable "http_file"                { type = string }
 variable "http_port_min"            { type = number }
 variable "http_port_max"            { type = number }
 variable "http_ip"                  { type = string }
@@ -105,7 +109,7 @@ locals {
 # -------------------------------------------------------------------------- #
 #                       Template Source Definitions                          #
 # -------------------------------------------------------------------------- #
-source "vsphere-iso" "photon4" {
+source "vsphere-iso" "win2019std" {
     # vCenter
     vcenter_server              = var.vcenter_server
     username                    = var.vcenter_username
@@ -120,14 +124,15 @@ source "vsphere-iso" "photon4" {
 
     # Virtual Machine
     guest_os_type               = var.vm_os_type
-    vm_name                     = "photon4-${ var.build_branch }-${ local.build_version }"
-    notes                       = "VER: ${ local.build_version }\nDATE: ${ local.build_date }\nSRC: ${ var.build_repo } (${ var.build_branch })\nOS: Photon 4 Server\nISO: ${ var.os_iso_file }"
+    vm_name                     = "win2019std-${ var.build_branch }-${ local.build_version }"
+    notes                       = "VER: ${ local.build_version }\nDATE: ${ local.build_date }\nSRC: ${ var.build_repo } (${ var.build_branch })\nOS: Windows 2019 Std\nISO: ${ var.os_iso_file }"
     firmware                    = var.vm_firmware
     CPUs                        = var.vm_cpu_sockets
     cpu_cores                   = var.vm_cpu_cores
     RAM                         = var.vm_mem_size
     cdrom_type                  = var.vm_cdrom_type
     disk_controller_type        = var.vm_disk_controller
+    tools_upgrade_policy        = var.vm_tools_update
     storage {
         disk_size               = var.vm_disk_size
         disk_thin_provisioned   = var.vm_disk_thin
@@ -138,22 +143,18 @@ source "vsphere-iso" "photon4" {
     }
 
     # Removeable Media
-    iso_paths                   = ["[${ var.vcenter_iso_datastore }] ${ var.os_iso_path }/${ var.os_iso_file }"]
-    #iso_url                     = var.os_iso_url
-    #iso_checksum                = var.os_iso_checksum
+    iso_paths                   = [ "[${ var.vcenter_iso_datastore }] ${ var.os_iso_path }/${ var.os_iso_file }", "[] /vmimages/tools-isoimages/windows.iso" ]
+    floppy_files                = [ "config/std/autounattend.xml", "../../scripts/win2019-initialize.ps1", "../../scripts/win-install-vmtools.ps1" ]
+
     # Boot and Provisioner
-    http_directory              = var.http_directory
-    http_port_min               = var.http_port_min
-    http_port_max               = var.http_port_max
-    http_ip                     = var.http_ip
     boot_order                  = var.vm_boot_order
     boot_wait                   = var.vm_boot_wait
-    boot_command                = [ "<esc><wait> vmlinuz initrd=initrd.img root=/dev/ram0 loglevel=3 insecure_installation=1 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${ var.http_file } photon.media=cdrom <enter>" ]
+    boot_command                = [ "<spacebar>" ]
     ip_wait_timeout             = var.vm_ip_timeout
-    communicator                = "ssh"
-    ssh_username                = var.build_username
-    ssh_password                = var.build_password
-    shutdown_command            = "sudo shutdown -P now"
+    communicator                = "winrm"
+    winrm_username              = var.build_username
+    winrm_password              = var.build_password
+    shutdown_command            = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Complete\""
     shutdown_timeout            = var.vm_shutdown_timeout
 }
 
@@ -162,13 +163,32 @@ source "vsphere-iso" "photon4" {
 # -------------------------------------------------------------------------- #
 build {
     # Build sources
-    sources                 = [ "source.vsphere-iso.photon4" ]
+    sources                 = [ "source.vsphere-iso.win2019std" ]
     
-    # Shell Provisioner to execute scripts 
-    provisioner "shell" {
-        execute_command     = "echo '${var.build_password}' | {{.Vars}} sudo -E -S sh -eu '{{.Path}}'"
+    # Windows Update using https://github.com/rgl/packer-provisioner-windows-update
+    provisioner "windows-update" {
+        pause_before        = "30s"
+        search_criteria     = "IsInstalled=0"
+        filters             = [ "exclude:$_.Title -like '*VMware*'",
+                                "exclude:$_.Title -like '*Preview*'",
+                                "exclude:$_.Title -like '*Defender*'",
+                                "exclude:$_.InstallationBehavior.CanRequestUserInput",
+                                "include:$true" ]
+        restart_timeout     = "120m"
+    }      
+    
+    # PowerShell Provisioner to execute scripts 
+    provisioner "powershell" {
+        elevated_user       = var.build_username
+        elevated_password   = var.build_password
         scripts             = var.script_files
-        valid_exit_codes    = [ 0,245,1535 ]
+    }
+
+    # PowerShell Provisioner to execute commands
+    provisioner "powershell" {
+        elevated_user       = var.build_username
+        elevated_password   = var.build_password
+        inline              = var.inline_cmds
     }
     post-processor "manifest" {
         output = "${ var.manifest_output_dir }/${ var.os_version }-${ var.os_family }.json"
