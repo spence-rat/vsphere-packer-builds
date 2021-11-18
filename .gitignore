@@ -8,3 +8,9 @@
 vsphere.pkrvars.hcl
 builds/*/packer_cache/
 ./builds/vsphere.pkrvars.hcl
+builds/ubuntu20/output/Ubuntu Linux-Linux.json
+builds/ubuntu20/config/id_ed25519.pub
+.gitignore
+builds/ubuntu20/config/id_ed25519
+builds/.DS_Store
+.DS_Store
