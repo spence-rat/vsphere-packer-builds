@@ -1,8 +1,8 @@
 #cloud-config
 autoinstall:
   version: 1
-#  early-commands:
-#    - systemctl stop ssh
+  early-commands:
+    - systemctl stop ssh
   locale: en_US
   keyboard:
     layout: en
@@ -10,7 +10,7 @@ autoinstall:
   identity:
     hostname: ubuntu
     username: packer
-    password: "$6$5xf8mJ0a1MgY$yne85/oYJA96xoFMlmKsyalnUhjDtt1ZRfwTVGXP1CF6xVkGDetIaY3vQtxQ7NleYKCO1fhSGN7N2irRfEqJK0"
+    password: '$6$xzsJvkg10l$/MR33d6N0hKXj23Mlb7xustF5i2TzA1iQt9gErJysQxnANBHUyeUdyc.paED1gB0tIx5XPG2Zic4BLygr1Z2a/'
   users:
     - default
     - name: docker
@@ -21,7 +21,7 @@ autoinstall:
       ssh_import_id:
       lock_passwd: false
     - name: packer
-      passwd: "$6$5xf8mJ0a1MgY$yne85/oYJA96xoFMlmKsyalnUhjDtt1ZRfwTVGXP1CF6xVkGDetIaY3vQtxQ7NleYKCO1fhSGN7N2irRfEqJK0"
+      passwd: '$6$xzsJvkg10l$/MR33d6N0hKXj23Mlb7xustF5i2TzA1iQt9gErJysQxnANBHUyeUdyc.paED1gB0tIx5XPG2Zic4BLygr1Z2a/'
       shell: /bin/bash
       lock_passwd: false
       ssh_pwauth: True
