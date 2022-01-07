@@ -7,18 +7,18 @@
 # ----------------------------------------------------------------------------
 
 # vCenter Settings
-vcenter_username        = "packer.prod@thebrynards.com"
-vcenter_password        = "NY*gFjK7Gg!VX#V5ecohgL4w^tPNrB$$QHWrX4amg9S@Q"
+vcenter_username        = ""
+vcenter_password        = ""
 
 # vCenter Configuration
-vcenter_server          = "vcsa01.thebrynards.com"
-vcenter_datacenter      = "dc01.ustx.home"
-vcenter_cluster         = "cluster01"
-vcenter_datastore       = "esxi02-ds03"
-vcenter_network         = "staging vlan"
-vcenter_iso_datastore   = "esxi02-ds03"
+vcenter_server          = ""
+vcenter_datacenter      = ""
+vcenter_cluster         = ""
+vcenter_datastore       = ""
+vcenter_network         = ""
+vcenter_iso_datastore   = ""
 vcenter_insecure        = true
-vcenter_content_library = "builds"
+vcenter_content_library = ""
 
 # VM Settings
 vm_cdrom_remove         = true
