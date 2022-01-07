@@ -5,7 +5,6 @@
 *.box
 
 # Misc
-vsphere.pkrvars.hcl
 builds/*/packer_cache/
 ./builds/vsphere.pkrvars.hcl
 builds/ubuntu20/output/Ubuntu Linux-Linux.json
