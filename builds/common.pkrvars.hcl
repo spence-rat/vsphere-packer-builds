@@ -16,6 +16,6 @@ build_branch            = "main"
 
 # Packer Settings
 http_port_min           = 8000
-http_port_max           = 8050
+http_port_max           = 8010
 http_ip                 = "10.0.10.220"
 manifest_output_dir     = "./output/"

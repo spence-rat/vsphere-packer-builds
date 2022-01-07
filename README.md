@@ -5,7 +5,23 @@
   </a>
 </p>
 
-> vsphere packer builds for homelab automation
+> Packer templates for VMWare vSphere packer builders.
+
+## Install
+#### Pre-Reqs
+The following pre-reqs are required to use this project:
+
+* docker =< 20
+
+### Linux
+
+Clone the repository to your local machine
+
+```sh
+
+git clone https://github.com/RalphBrynard/vsphere-packer-builds.git
+
+```
 
 ## Author
 

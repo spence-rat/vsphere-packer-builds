@@ -33,7 +33,7 @@ build_username      = "packer"
 build_password      = "vagrant"
 
 # Provisioner Settings
-script_files        = [ "../../scripts/ubuntu20-config.sh" ]
+script_files        = [ "../scripts/ubuntu20-config.sh" ]
 inline_cmds         = []
 
 # Packer Settings
