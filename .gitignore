@@ -13,3 +13,4 @@ builds/ubuntu20/config/id_ed25519.pub
 builds/ubuntu20/config/id_ed25519
 builds/.DS_Store
 .DS_Store
+builds/vsphere-prod.pkrvars.hcl

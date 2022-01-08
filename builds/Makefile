@@ -19,4 +19,4 @@ packer_build:
 		-w /workspace/$(build) \
 		-e PACKER_PLUGIN_PATH=/workspace/.packer.d/plugins/ \
 		hashicorp/packer:latest \
-		build -var-file="../vsphere.pkrvars.hcl" -var-file="../common.pkrvars.hcl" -var "http_ip=$(HTTP_IP)" .
+		build -var-file="../vsphere-prod.pkrvars.hcl" -var-file="../common.pkrvars.hcl"  .
