@@ -7,7 +7,7 @@
 # ----------------------------------------------------------------------------
 
 # ISO Settings
-os_iso_url         = "https://d3kp7h9g268qlg.cloudfront.net/packer-iso-files/os/microsoft/windows2019_noprompt.iso"
+os_iso_url         = "https://d3kp7h9g268qlg.cloudfront.net/packer-iso-files/os/microsoft/windows2019/windows2019_noprompt.iso"
 os_iso_checksum    = "sha256:EED5622504A975F6839D8F1CA9E6EC66A1EF2E1100626A5A41C195B5A271B575"
 
 # OS Meta Data
