@@ -52,7 +52,7 @@ variable "vcenter_cluster"          { type = string }
 variable "vcenter_datastore"        { type = string }
 variable "vcenter_network"          { type = string }
 variable "vcenter_insecure"         { type = bool }
-variable "vcenter_folder"           { type = string }
+variable "vcenter_content_library"  { type = string }
 
 # vCenter and ISO Configuration
 variable "vcenter_iso_datastore"    { type = string }
