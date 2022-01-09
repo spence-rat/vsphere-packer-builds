@@ -56,10 +56,10 @@ variable "vcenter_folder"           { type = string }
 
 # vCenter and ISO Configuration
 variable "vcenter_iso_datastore"    { type = string }
-variable "os_iso_file"              { type = string }
-variable "os_iso_path"              { type = string }
-#variable "os_iso_url"                { type = string }
-#variable "os_iso_checksum"           { type = string }
+#variable "os_iso_file"              { type = string }
+#variable "os_iso_path"              { type = string }
+variable "os_iso_url"                { type = string }
+variable "os_iso_checksum"           { type = string }
 
 # OS Meta Data
 variable "os_family"                { type = string }
@@ -125,7 +125,7 @@ source "vsphere-iso" "win2019std" {
     # Virtual Machine
     guest_os_type               = var.vm_os_type
     vm_name                     = "win2019std-${ var.build_branch }-${ local.build_version }"
-    notes                       = "VER: ${ local.build_version }\nDATE: ${ local.build_date }\nSRC: ${ var.build_repo } (${ var.build_branch })\nOS: Windows 2019 Std\nISO: ${ var.os_iso_file }"
+    notes                       = "VER: ${ local.build_version }\nDATE: ${ local.build_date }\nSRC: ${ var.build_repo } (${ var.build_branch })\nOS: Windows 2019 Std\nISO: ${ var.os_iso_url }"
     firmware                    = var.vm_firmware
     CPUs                        = var.vm_cpu_sockets
     cpu_cores                   = var.vm_cpu_cores
@@ -143,7 +143,9 @@ source "vsphere-iso" "win2019std" {
     }
 
     # Removeable Media
-    iso_paths                   = [ "[${ var.vcenter_iso_datastore }] ${ var.os_iso_path }/${ var.os_iso_file }", "[] /vmimages/tools-isoimages/windows.iso" ]
+    # iso_paths                   = [ "[${ var.vcenter_iso_datastore }] ${ var.os_iso_path }/${ var.os_iso_file }", "[] /vmimages/tools-isoimages/windows.iso" ]
+    iso_url                     = var.os_iso_url
+    iso_checksum                = var.os_iso_checksum
     floppy_files                = [ "config/std/autounattend.xml", "../../scripts/win2019-initialize.ps1", "../../scripts/win-install-vmtools.ps1" ]
 
     # Boot and Provisioner
