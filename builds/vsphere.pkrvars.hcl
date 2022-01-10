@@ -20,7 +20,7 @@ vcenter_iso_datastore           = ""
 vcenter_insecure                = true
 vcenter_folder                  = ""
 content_library_destination     = ""
-library_vm_destroy              = true
+library_vm_destroy              = false
 convert_to_ovf                  = true
 
 # VM Settings
