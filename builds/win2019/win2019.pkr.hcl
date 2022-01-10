@@ -55,9 +55,7 @@ variable "vcenter_insecure"         { type = bool }
 variable "vcenter_content_library"  { type = string }
 
 # vCenter and ISO Configuration
-variable "vcenter_iso_datastore"    { type = string }
-#variable "os_iso_file"              { type = string }
-#variable "os_iso_path"              { type = string }
+variable "vcenter_iso_datastore"     { type = string }
 variable "os_iso_url"                { type = string }
 variable "os_iso_checksum"           { type = string }
 

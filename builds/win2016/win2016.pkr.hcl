@@ -47,58 +47,61 @@ variable "build_password" {
 }
 
 # vCenter Configuration
-variable "vcenter_server"           { type = string }
-variable "vcenter_datacenter"       { type = string }
-variable "vcenter_cluster"          { type = string }
-variable "vcenter_datastore"        { type = string }
-variable "vcenter_network"          { type = string }
-variable "vcenter_insecure"         { type = bool }
-variable "vcenter_content_library"  { type = string }
+variable "vcenter_server"                   { type = string }
+variable "vcenter_datacenter"               { type = string }
+variable "vcenter_cluster"                  { type = string }
+variable "vcenter_datastore"                { type = string }
+variable "vcenter_network"                  { type = string }
+variable "vcenter_insecure"                 { type = bool }
+variable "vcenter_folder"                   { type = string }
+variable "content_library_destination"      { type = string }
+variable "template_library_name"            { type = string }
+variable "convert_to_ovf"                   { type = bool }
+variable "library_vm_destroy"               { type = bool }
 
 # vCenter and ISO Configuration
-variable "vcenter_iso_datastore"    { type = string }
-variable "os_iso_file"              { type = string }
-variable "os_iso_path"              { type = string }
-#variable "os_iso_url"                { type = string }
-#variable "os_iso_checksum"           { type = string }
+variable "vcenter_iso_datastore"            { type = string }
+variable "os_iso_url"                       { type = string }
+variable "os_iso_checksum"                  { type = string }
+
 # OS Meta Data
-variable "os_family"                { type = string }
-variable "os_version"               { type = string }
+variable "os_family"                        { type = string }
+variable "os_version"                       { type = string }
 
 # Virtual Machine OS Settings
-variable "vm_os_type"               { type = string }
-variable "vm_tools_update"          { type = bool }
+variable "vm_os_type"                       { type = string }
+variable "vm_tools_update"                  { type = bool }
 
 # Virtual Machine Hardware Settings
-variable "vm_firmware"              { type = string }
-variable "vm_boot_order"            { type = string }
-variable "vm_boot_wait"             { type = string }
-variable "vm_cpu_sockets"           { type = number }
-variable "vm_cpu_cores"             { type = number }
-variable "vm_mem_size"              { type = number }
-variable "vm_nic_type"              { type = string }
-variable "vm_disk_controller"       { type = list(string) }
-variable "vm_disk_size"             { type = number }
-variable "vm_disk_thin"             { type = bool }
-variable "vm_cdrom_type"            { type = string }
-variable "vm_cdrom_remove"          { type = bool }
-variable "vm_convert_template"      { type = bool }
-variable "vm_ip_timeout"            { type = string }
-variable "vm_shutdown_timeout"      { type = string }
+variable "vm_firmware"                      { type = string }
+variable "vm_boot_order"                    { type = string }
+variable "vm_boot_wait"                     { type = string }
+variable "vm_cpu_sockets"                   { type = number }
+variable "vm_cpu_cores"                     { type = number }
+variable "vm_mem_size"                      { type = number }
+variable "vm_nic_type"                      { type = string }
+variable "vm_disk_controller"               { type = list(string) }
+variable "vm_disk_size"                     { type = number }
+variable "vm_disk_thin"                     { type = bool }
+variable "vm_cdrom_type"                    { type = string }
+variable "vm_cdrom_remove"                  { type = bool }
+variable "vm_convert_template"              { type = bool }
+variable "vm_ip_timeout"                    { type = string }
+variable "vm_shutdown_timeout"              { type = string }
 
 # Provisioner Settings
-variable "script_files"             { type = list(string) }
-variable "inline_cmds"              { type = list(string) }
+variable "script_files"                     { type = list(string) }
+variable "inline_cmds"                      { type = list(string) }
 
 # Build Settings
-variable "build_repo"               { type = string }
-variable "build_branch"             { type = string }
-variable "manifest_output_dir"      { type = string }
+variable "build_repo"                       { type = string }
+variable "build_branch"                     { type = string }
+variable "manifest_output_dir"              { type = string }
 
 # HTTP Settings
-variable "http_port_min"            { type = number }
-variable "http_port_max"            { type = number }
-variable "http_ip"                  { type = string }
+variable "http_port_min"                    { type = number }
+variable "http_port_max"                    { type = number }
+variable "http_ip"                          { type = string }
 
 # Local Variables
 locals { 
@@ -117,15 +120,22 @@ source "vsphere-iso" "win2016std" {
     insecure_connection         = var.vcenter_insecure
     datacenter                  = var.vcenter_datacenter
     cluster                     = var.vcenter_cluster
-    folder                      = "${ var.vcenter_content_library }/${ var.os_family }/${ var.os_version }"
+    folder                      = "${ var.vcenter_folder }/${ var.os_family }/${ var.os_version }"
     datastore                   = var.vcenter_datastore
     remove_cdrom                = var.vm_cdrom_remove
     convert_to_template         = var.vm_convert_template
 
+    content_library_destination {
+        library                 = var.content_library_destination
+        name                    = var.template_library_name
+        ovf                     = var.convert_to_ovf
+        destroy                 = var.library_vm_destroy
+    }
+
     # Virtual Machine
     guest_os_type               = var.vm_os_type
     vm_name                     = "win2016std-${ var.build_branch }-${ local.build_version }"
-    notes                       = "VER: ${ local.build_version }\nDATE: ${ local.build_date }\nSRC: ${ var.build_repo } (${ var.build_branch })\nOS: Windows 2016 Std\nISO: ${ var.os_iso_file }"
+    notes                       = "VER: ${ local.build_version }\nDATE: ${ local.build_date }\nSRC: ${ var.build_repo } (${ var.build_branch })\nOS: Windows 2016 Std\nISO: ${ var.os_iso_url }"
     firmware                    = var.vm_firmware
     CPUs                        = var.vm_cpu_sockets
     cpu_cores                   = var.vm_cpu_cores
@@ -143,10 +153,10 @@ source "vsphere-iso" "win2016std" {
     }
 
     # Removeable Media
-    iso_paths                   = [ "[${ var.vcenter_iso_datastore }] ${ var.os_iso_path }/${ var.os_iso_file }", "[] /vmimages/tools-isoimages/windows.iso" ]
-    #iso_url                     = var.os_iso_url
-    #iso_checksum                = var.os_iso_checksum
-    floppy_files                = [ "config/std/autounattend.xml", "../../scripts/win2016-initialize.ps1", "../../scripts/win-install-vmtools.ps1" ]
+    iso_paths                   = [ "${ var.vcenter_iso_datastore }" ]
+    iso_url                     = var.os_iso_url
+    iso_checksum                = var.os_iso_checksum
+    floppy_files                = [ "config/std/autounattend.xml", "../scripts/win2016-initialize.ps1", "../scripts/win-install-vmtools.ps1" ]
 
     # Boot and Provisioner
     boot_order                  = var.vm_boot_order
