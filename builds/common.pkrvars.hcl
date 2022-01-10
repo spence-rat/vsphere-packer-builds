@@ -12,7 +12,7 @@ vm_boot_order           = "disk,cdrom"
 
 # Build Settings
 build_repo              = "https://github.com/RalphBrynard/homelab-automation.git"
-build_branch            = "development"
+build_branch            = "issue-#1"
 
 # Packer Settings
 http_port_min           = 8000

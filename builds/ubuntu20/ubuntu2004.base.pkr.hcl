@@ -149,7 +149,6 @@ source "vsphere-iso" "ubuntu20_base" {
     }
 
     # Removeable Media
-    iso_paths                   = ["[${ var.vcenter_folder }] ${ var.os_iso_url}"]
     iso_url                     = var.os_iso_url
     iso_checksum                = var.os_iso_checksum
     # Boot and Provisioner

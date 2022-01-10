@@ -29,7 +29,7 @@ vm_cdrom_type               = "sata"
 vm_os_type                  = "ubuntu64Guest"
 build_username              = "packer"
 build_password              = "vagrant"
-template_library_name       = "ubuntu 20.04"
+template_library_name       = "ubuntu_20.04"
 
 # Provisioner Settings
 script_files                = [ "../scripts/ubuntu20-config.sh" ]
