@@ -1,6 +1,6 @@
 .PHONY: packer_init packer_validate
 
-HTTP_IP := $(shell ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+#HTTP_IP := $(shell ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 
 packer_init:
 	docker run \

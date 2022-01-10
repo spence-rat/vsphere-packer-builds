@@ -41,60 +41,64 @@ variable "build_password" {
 }
 
 # vCenter Configuration
-variable "vcenter_server"           { type = string }
-variable "vcenter_datacenter"       { type = string }
-variable "vcenter_cluster"          { type = string }
-variable "vcenter_datastore"        { type = string }
-variable "vcenter_network"          { type = string }
-variable "vcenter_insecure"         { type = bool }
-variable "vcenter_content_library"  { type = string }
+variable "vcenter_server"               { type = string }
+variable "vcenter_datacenter"           { type = string }
+variable "vcenter_cluster"              { type = string }
+variable "vcenter_datastore"            { type = string }
+variable "vcenter_network"              { type = string }
+variable "vcenter_insecure"             { type = bool }
+variable "vcenter_folder"               { type = string }
+variable "content_library_destination"  {  type = string }
+variable "template_library_name"        {  type = string }
+variable "library_vm_destroy"           {  type = bool }
+
 
 # vCenter and ISO Configuration
-variable "vcenter_iso_datastore"    { type = string }
-#variable "os_iso_file"              { type = string }
-#variable "os_iso_path"              { type = string }
-variable "os_iso_url"                { type = string }
-variable "os_iso_checksum"           { type = string }
+variable "vcenter_iso_datastore"        { type = string }
+variable "os_iso_url"                   { type = string }
+variable "os_iso_checksum"              { type = string }
 # OS Meta Data
-variable "os_family"                { type = string }
-variable "os_version"               { type = string }
+variable "os_family"                    { type = string }
+variable "os_version"                   { type = string }
 
 # Virtual Machine OS Settings
-variable "vm_os_type"               { type = string }
+variable "vm_os_type"                   { type = string }
 
 # Virtual Machine Hardware Settings
-variable "vm_firmware"              { type = string }
-variable "vm_boot_order"            { type = string }
-variable "vm_boot_wait"             { type = string }
-variable "vm_cpu_sockets"           { type = number }
-variable "vm_cpu_cores"             { type = number }
-variable "vm_mem_size"              { type = number }
-variable "vm_nic_type"              { type = string }
-variable "vm_disk_controller"       { type = list(string) }
-variable "vm_disk_size"             { type = number }
-variable "vm_disk_thin"             { type = bool }
-variable "vm_cdrom_type"            { type = string }
-variable "vm_cdrom_remove"          { type = bool }
-variable "vm_convert_template"      { type = bool }
-variable "vm_ip_timeout"            { type = string }
-variable "vm_shutdown_timeout"      { type = string }
+variable "vm_firmware"                  { type = string }
+variable "vm_boot_order"                { type = string }
+variable "vm_boot_wait"                 { type = string }
+variable "vm_cpu_sockets"               { type = number }
+variable "vm_cpu_cores"                 { type = number }
+variable "vm_mem_size"                  { type = number }
+variable "vm_nic_type"                  { type = string }
+variable "vm_disk_controller"           { type = list(string) }
+variable "vm_disk_size"                 { type = number }
+variable "vm_disk_thin"                 { type = bool }
+variable "vm_cdrom_type"                { type = string }
+variable "vm_cdrom_remove"              { type = bool }
+variable "vm_convert_template"          { type = bool }
+variable "vm_ip_timeout"                { type = string }
+variable "vm_shutdown_timeout"          { type = string }
+variable "convert_to_ovf"               { type = bool }
 
 # Provisioner Settings
-variable "script_files"             { type = list(string) }
-variable "inline_cmds"              { type = list(string) }
-variable "ssh_timeout"              { type = string }
+variable "script_files"                 { type = list(string) }
+variable "inline_cmds"                  { type = list(string) }
+variable "ssh_timeout"                  { type = string }
+variable "ssh_private_key_file"         { type = string }
 
 # Build Settings
-variable "build_repo"               { type = string }
-variable "build_branch"             { type = string }
-variable "manifest_output_dir"      { type = string }
+variable "build_repo"                   { type = string }
+variable "build_branch"                 { type = string }
+variable "manifest_output_dir"          { type = string }
 
 # HTTP Settings
-variable "http_directory"           { type = string }
-variable "http_file"                { type = string }
-variable "http_port_min"            { type = number }
-variable "http_port_max"            { type = number }
-variable "http_ip"                  { type = string }
+variable "http_directory"               { type = string }
+variable "http_file"                    { type = string }
+variable "http_port_min"                { type = number }
+variable "http_port_max"                { type = number }
+variable "http_ip"                      { type = string }
 
 # Local Variables
 locals { 
@@ -113,10 +117,17 @@ source "vsphere-iso" "ubuntu20_base" {
     insecure_connection         = var.vcenter_insecure
     datacenter                  = var.vcenter_datacenter
     cluster                     = var.vcenter_cluster
-    folder                      = "${ var.vcenter_content_library }/${ var.os_family }/${ var.os_version }"
+    folder                      = "${ var.vcenter_folder }/${ var.os_family }/${ var.os_version }"
     datastore                   = var.vcenter_datastore
     remove_cdrom                = var.vm_cdrom_remove
     convert_to_template         = var.vm_convert_template
+
+    content_library_destination {
+        library                 = var.content_library_destination
+        name                    = var.template_library_name
+        ovf                     = var.convert_to_ovf
+        destroy                 = var.library_vm_destroy
+    }
 
     # Virtual Machine
     guest_os_type               = var.vm_os_type
@@ -138,7 +149,7 @@ source "vsphere-iso" "ubuntu20_base" {
     }
 
     # Removeable Media
-    #iso_paths                   = ["[${ var.vcenter_iso_datastore }] ${ var.os_iso_path }/${ var.os_iso_file }"]
+    iso_paths                   = ["[${ var.vcenter_folder }] ${ var.os_iso_url}"]
     iso_url                     = var.os_iso_url
     iso_checksum                = var.os_iso_checksum
     # Boot and Provisioner
@@ -154,7 +165,7 @@ source "vsphere-iso" "ubuntu20_base" {
     ip_wait_timeout             = var.vm_ip_timeout
     communicator                = "ssh"
     ssh_username                = var.build_username
-    ssh_password                = var.build_password
+    ssh_private_key_file        = var.ssh_private_key_file
     ssh_timeout                 = var.ssh_timeout
     shutdown_command            = "sudo shutdown -P now"
     shutdown_timeout            = var.vm_shutdown_timeout

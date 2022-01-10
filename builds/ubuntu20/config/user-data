@@ -30,7 +30,9 @@ autoinstall:
       groups: users, admin
   ssh:
     install-server: yes
-    allow-pw: yes
+    authorized-keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC66x9wfrTj2apaUlMYeX23oKnG2RG+hBtEmIfUG+W1Q5QhCBtuDf+NgqfwMp0SmfDpqX1QpApYzPPL4mmxkncubcOHyGtVwF+RFqvTlTLzCbRQAwslvrt1ICITbhIJiBVR/24/jpStlSot+Zo1CSeHzquaiED2qzVHjA4lQj1v6Yb1BpBohs4kiaRHRJ0q5hc/O5txXix6PDbmfqgv/6Ie2zbLQqL1uXp5lcNxigpFd1CwIm7UjHrBARNui+A3n+wjq9QXlVjOzGwexgsFR7HbBPec1qPgTGqayGVmyyUk2zUf31g11GI1l2W9ghgV6HAW1J6noK3e8EYgoKqdsUaB Packer builder SSH key"
+    allow-pw: no
   packages:
     - open-vm-tools
     - net-tools
