@@ -7,24 +7,24 @@
 # ----------------------------------------------------------------------------
 
 # vCenter Settings
-vcenter_username                = ""
-vcenter_password                = ""
+vcenter_username                = "packer.prod@thebrynards.com"
+vcenter_password                = "NY*gFjK7Gg!VX#V5ecohgL4w^tPNrB$$QHWrX4amg9S@Q"
 
 # vCenter Configuration
-vcenter_server                  = ""
-vcenter_datacenter              = ""
-vcenter_cluster                 = ""
-vcenter_datastore               = ""
-vcenter_network                 = ""
-vcenter_iso_datastore           = ""
+vcenter_server                  = "vcsa01.thebrynards.com"
+vcenter_datacenter              = "dc01.ustx.home"
+vcenter_cluster                 = "cluster01"
+vcenter_datastore               = "esxi02-ds03"
+vcenter_network                 = "staging vlan"
+vcenter_iso_datastore           = "esxi02-ds03"
 vcenter_insecure                = true
-vcenter_folder                  = ""
-content_library_destination     = ""
-library_vm_destroy              = true
+vcenter_folder                  = "builds"
+content_library_destination     = "packer_templates"
+library_vm_destroy              = false
 convert_to_ovf                  = true
 
 # VM Settings
 vm_cdrom_remove                 = true
-vm_convert_template             = true
+vm_convert_template             = false
 vm_ip_timeout                   = "20m"
 vm_shutdown_timeout             = "15m"
